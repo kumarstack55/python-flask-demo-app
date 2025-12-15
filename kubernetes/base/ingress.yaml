@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ing-flask-app
+  namespace: ns-flask-app
+spec:
+  rules:
+    - host: example.com.invalid
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: svc-nginx
+                port:
+                  number: 80

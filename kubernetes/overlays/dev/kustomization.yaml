@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+namespace: ns-flask-app-dev
+nameSuffix: -dev
+labels:
+  - includeSelectors: true
+    pairs:
+      env: dev
+configMapGenerator:
+  - name: cm-nginx
+    behavior: replace
+    files:
+      - nginx.conf=nginx.conf
+patches:
+  - path: patch-ingress.yaml
+  - path: patch-flask-deployment.yaml
+  - path: patch-nginx-deployment.yaml

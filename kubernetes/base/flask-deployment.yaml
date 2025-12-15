@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-flask-app
+  namespace: ns-flask-app
+  labels:
+    app: app-flask
+spec:
+  selector:
+    matchLabels:
+      app: app-flask
+  template:
+    metadata:
+      labels:
+        app: app-flask
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: container-flask-app
+          image: ghcr.io/kumarstack55/python-flask-demo-app:0.1
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            - name: FLASK_APP
+              value: "main.py"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"

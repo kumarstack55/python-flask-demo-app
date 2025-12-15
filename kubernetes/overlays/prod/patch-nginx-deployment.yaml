@@ -1,0 +1,9 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-nginx
+  namespace: ns-flask-app
+  labels:
+    app: app-nginx
+spec:
+  replicas: 2

@@ -1,0 +1,9 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-flask-app
+  namespace: ns-flask-app
+  labels:
+    app: app-flask
+spec:
+  replicas: 2
